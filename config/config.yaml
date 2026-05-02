@@ -1,0 +1,49 @@
+databricks:
+  server_hostname: ${DATABRICKS_HOST}
+  http_path: ${DATABRICKS_HTTP_PATH}
+  access_token: ${DATABRICKS_TOKEN}
+  # Source table: selected by user at runtime via UI (datareadiness.default.*)
+  # Target: fixed destination written on pass
+  target_catalog: retaildata
+  target_schema: default
+  target_table: dq_approved_output
+  socket_timeout: 900
+
+azure_openai:
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
+  key: ${AZURE_OPENAI_KEY}
+  deployment: gpt-4o
+  api_version: "2025-01-01-preview"
+  max_tokens: 2048
+  temperature: 0.2
+
+metrics:
+  passing_threshold: 8.0
+  max_iterations: 5
+  weights:
+    metadata: 0.20
+    quality: 0.35
+    governance: 0.30
+    fairness: 0.15
+  # Per-category thresholds (0–10); used for drill-down reporting
+  category_thresholds:
+    metadata: 6.0
+    quality: 7.0
+    governance: 8.0
+    fairness: 7.0
+
+pipeline:
+  type: local          # "local" | "databricks_jobs" | "airflow"
+  databricks_job_id: null
+  poll_interval_seconds: 30
+  max_poll_minutes: 60
+  require_approval_after_pipeline: true
+
+state:
+  redis_url: ${REDIS_URL}
+  run_ttl_seconds: 86400   # 24 h
+
+app:
+  log_level: ${LOG_LEVEL:-INFO}
+  max_fetch_rows: ${MAX_FETCH_ROWS:-50000}
+  local_parquet_dir: /tmp

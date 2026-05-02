@@ -1,0 +1,16 @@
+.env
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+/tmp/run_*.parquet
+*.parquet
+.DS_Store
+.claude
+logs/*.log
+logs/*.log.*
